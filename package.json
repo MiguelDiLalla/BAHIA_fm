@@ -1,0 +1,41 @@
+{
+  "name": "reggae-surf-radio-pwa",
+  "version": "1.0.0",
+  "description": "A Progressive Web App for Surfers Bahia FM streaming station",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx serve . -p 8000",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Static site - no build process needed\"",
+    "deploy": "echo \"Deploy to your preferred static hosting service\""
+  },
+  "keywords": [
+    "pwa",
+    "progressive-web-app",
+    "radio",
+    "streaming",
+    "reggae",
+    "surf",
+    "music",
+    "audio"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/reggae-surf-radio-pwa",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/reggae-surf-radio-pwa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/reggae-surf-radio-pwa/issues"
+  },
+  "devDependencies": {
+    "serve": "^14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

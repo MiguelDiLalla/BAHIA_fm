@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surfers Bahia FM</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#111111">
+    <meta name="description" content="Surfers Bahia FM - Your favorite reggae and surf music station">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Favicon links -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/android-chrome-512x512.png">
+    
+    <!-- TODO: Add meta tags for social media sharing -->
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <!-- TODO: Replace with actual station name or menu icon -->
+            <h1 class="station-name">Surfers Bahia FM</h1>
+        </div>
+        <div class="nav-right">
+            <!-- TODO: Add actual page links -->
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#playlist">Playlist</a>
+            <button id="install-btn" class="install-btn" style="display: none;">Instalar</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="player-container">
+            <!-- TODO: Replace with actual station logo -->
+            <img id="logo-btn" src="assets/logo.png" alt="Station Logo" class="station-logo">
+            <div class="controls">
+                <button id="mute-btn" class="control-btn" aria-label="Mute/Unmute">🔈</button>
+                <div class="volume-container">
+                    <!-- TODO: Add volume slider -->
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.7">
+                    <div class="volume-percentage" id="volume-percentage">70%</div>
+                </div>
+            </div>
+            <div class="status-info">
+                <!-- Status info removed as requested -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <!-- TODO: Add station information and links -->
+        <p>&copy; 2025 Surfers Bahia FM. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+/* Global Styles */
+body {
+    background: #fff;
+    color: #111;
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navigation Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.nav-left .station-name {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111;
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+}
+
+.nav-right {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-right a {
+    color: #111;
+    text-decoration: none;
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    transition: color 0.3s ease;
+}
+
+.nav-right a:hover {
+    color: #007bff;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px;
+    min-height: calc(100vh - 60px);
+}
+
+.player-container {
+    text-align: center;
+    padding: 40px;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Logo/Play Button Styles */
+.station-logo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    border: 4px solid #111;
+}
+
+.station-logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Playing Animation */
+@keyframes bump {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.playing {
+    animation: bump 1s ease-in-out infinite;
+}
+
+/* Controls Styles */
+.controls {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.control-btn {
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.control-btn:hover {
+    background: #333;
+    transform: translateY(-2px);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+}
+
+/* Install Button Styles */
+.install-btn {
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.install-btn:hover {
+    background: #218838;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+.install-btn:active {
+    transform: translateY(0);
+}
+
+.install-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+}
+
+/* Volume Container */
+.volume-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 200px;
+}
+
+/* Volume Percentage Display */
+.volume-percentage {
+    font-size: 0.9rem;
+    color: #666;
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    text-align: center;
+    min-width: 40px;
+    transition: color 0.3s ease;
+}
+
+.volume-percentage.muted {
+    color: #dc3545;
+}
+
+.volume-percentage.high {
+    color: #28a745;
+}
+
+#volume-slider {
+    width: 100%;
+    height: 5px;
+    border-radius: 5px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #111;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#volume-slider::-webkit-slider-thumb:hover {
+    background: #333;
+    transform: scale(1.1);
+}
+
+#volume-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #111;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+/* Status Information */
+.status-info {
+    margin-top: 30px;
+}
+
+#status-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#now-playing {
+    font-size: 1rem;
+    color: #666;
+    font-style: italic;
+}
+
+/* Footer Styles */
+.footer {
+    background: #f8f9fa;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+}
+
+.footer p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+}
+
+/* Font Weight Utilities */
+.doto-light {
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+}
+
+.doto-regular {
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+}
+
+.doto-medium {
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+}
+
+.doto-semibold {
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+}
+
+.doto-bold {
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+}
+
+.doto-extrabold {
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+}
+
+.doto-black {
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 15px;
+        height: 50px;
+    }
+    
+    .nav-left .station-name {
+        font-size: 1.2rem;
+    }
+    
+    .nav-right {
+        gap: 15px;
+    }
+    
+    .nav-right a {
+        font-size: 0.9rem;
+    }
+    
+    .main-content {
+        padding-top: 50px;
+        min-height: calc(100vh - 50px);
+    }
+    
+    .player-container {
+        padding: 20px;
+    }
+    
+    .station-logo {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-right {
+        gap: 10px;
+    }
+    
+    .nav-right a {
+        font-size: 0.8rem;
+    }
+    
+    .station-logo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .player-container {
+        padding: 15px;
+    }
+}
+
+/* Loading State */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Error State */
+.error {
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* Success State */
+.success {
+    color: #155724;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* TODO: Add custom styles for different themes */
+/* TODO: Add animations for better user experience */
+/* TODO: Add dark mode support */
