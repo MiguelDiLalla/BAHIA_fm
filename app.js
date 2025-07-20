@@ -164,6 +164,7 @@ function init() {
     
     // Initialize scrolling text
     loadScrollingMessages();
+    showInitialMessage();
     
     // Initialize volume percentage display
     updateVolumePercentage(CONFIG.defaultVolume);
@@ -393,6 +394,22 @@ function processJsonSettings(jsonSettings) {
 }
 
 /**
+ * Show initial static message before scrolling starts
+ */
+function showInitialMessage() {
+    const container = document.getElementById('scrolling-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    const initialMessage = document.createElement('div');
+    initialMessage.classList.add('initial-message');
+    initialMessage.textContent = 'Tap Logo to START';
+    
+    container.appendChild(initialMessage);
+}
+
+/**
  * Loads scrolling messages and configuration from JSON file
  * Provides comprehensive error handling and fallbacks
  * @returns {Promise<void>}
@@ -440,7 +457,7 @@ function startScrollingAnimation() {
     const container = document.getElementById('scrolling-container');
     if (!container || !scrollingMessages.length) return;
     
-    container.innerHTML = ''; // Clear previous content
+    container.innerHTML = ''; // Clear previous content (including initial message)
     
     // Create message element
     const messageElem = document.createElement('div');
