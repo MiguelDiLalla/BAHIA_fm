@@ -48,8 +48,20 @@ A Progressive Web App for streaming Bahia FM - Radio Musical para amantes del Su
   - **PWA Funnel**: Installation prompt, acceptance, and completion tracking
   - **Social Outbound**: Track clicks to official social media profiles
   - **User Engagement**: Volume changes, mute interactions, and session metrics
-- **Privacy-First**: No cookies, GDPR-compliant tracking
+- **Privacy-First**: No tracking cookies, GDPR-compliant implementation
 - **Real-time Insights**: Stream performance and user behavior analytics
+
+### 🔒 Privacy & Consent Management
+- **GDPR Compliance**: Full European privacy regulation compliance
+- **Cookiebot Integration**: Google-certified Consent Management Platform (CMP)
+  - Automatic cookie blocking with `data-blockingmode="auto"`
+  - IAB TCF 2.2 (Transparency & Consent Framework) compatible
+  - Google Consent Mode v2 integration
+- **Consent Categories**: Statistics, Marketing, Preferences granular control
+- **Privacy-First Analytics**: Analytics only fire with proper user consent
+- **No Tracking Cookies**: All analytics anonymous and consent-based
+- **Cookie Banner**: Professional, customizable consent interface
+- **Legal Compliance**: Automatic consent signal handling for all services
 
 ### ⚡ Performance & Accessibility
 - Service worker with multiple caching strategies
@@ -192,10 +204,64 @@ The app includes comprehensive GA4 analytics tracking with the measurement ID `G
    - Create event-scoped custom dimensions as needed for `platform`, `method`, etc.
 
 4. **Privacy Compliance**:
-   - No cookies used
+   - No tracking cookies used
    - Anonymous tracking only
-   - GDPR compliant implementation
+   - GDPR compliant with Cookiebot CMP
    - `send_page_view: false` prevents automatic page tracking
+   - Analytics only fire with proper user consent
+
+### Privacy & Consent Management (Cookiebot)
+
+**GDPR Compliance Implementation:**
+
+The app uses Cookiebot as a Google-certified Consent Management Platform (CMP) for full GDPR compliance:
+
+```html
+<!-- Cookiebot CMP (Google‑certified) -->
+<script id="Cookiebot"
+        src="https://consent.cookiebot.com/uc.js"
+        data-cbid="fdc0ecbc-3104-4661-8edd-2e8ec43217a5"
+        data-blockingmode="auto"
+        type="text/javascript"></script>
+```
+
+**Key Features:**
+- **IAB TCF 2.2 Compatible**: Transparency & Consent Framework compliance
+- **Google Consent Mode v2**: Automatic integration with GA4
+- **Automatic Cookie Blocking**: `data-blockingmode="auto"` prevents cookies until consent
+- **Granular Categories**: Statistics, Marketing, Preferences user control
+- **Legal Compliance**: EU GDPR, CCPA, and other privacy regulations
+
+**Consent-Aware Analytics:**
+```javascript
+// User properties only set with consent
+window.addEventListener('CookiebotOnAccept', () => {
+    if (Cookiebot.consent.statistics) {
+        gtag('set', 'user_properties', {
+            install_state: isAppInstalled() ? 'installed' : 'browser'
+        });
+    }
+});
+```
+
+**Configuration Benefits:**
+- **Legal Protection**: Certified CMP reduces compliance risk
+- **User Trust**: Professional consent interface builds confidence
+- **Analytics Quality**: Only consented users provide reliable data
+- **Automatic Updates**: Cookiebot handles regulation changes
+- **Multi-Language**: Supports multiple languages for international users
+
+**Testing Consent Implementation:**
+1. **Open in incognito mode** (no browser extensions)
+2. **Reject all cookies** → GA4 DebugView shows `analytics_storage=denied`
+3. **Accept "Statistics"** → Refresh → GA4 shows `analytics_storage=granted`
+4. **Check GA4 Admin** → Data Streams → Consent settings show proper status
+
+**Customization via Cookiebot Dashboard:**
+- **Content & Language**: Customize banner text and translations
+- **Visual Design**: Match brand colors and positioning
+- **Category Settings**: Configure cookie categories and descriptions
+- **Domain Management**: Handle subdomains and staging environments
 
 ### Analytics Insights
 
@@ -391,10 +457,20 @@ The app includes comprehensive sharing capabilities:
 ### Analytics Implementation
 - **GA4 Events**: 15+ tracked events covering complete user journey
 - **User Segmentation**: PWA vs. browser user identification
-- **Privacy-First**: No cookies, anonymous tracking, GDPR compliant
+- **Privacy-First**: Consent-based tracking, GDPR compliant with Cookiebot CMP
 - **Event Helper**: Centralized `gaEvent()` function for consistent tracking
 - **Platform Detection**: Automatic iOS/Android/desktop identification
 - **Install State Tracking**: Real-time PWA installation status monitoring
+- **Consent Integration**: Analytics only fire with proper user consent via Cookiebot
+
+### Privacy & Consent Implementation
+- **Cookiebot CMP**: Google-certified Consent Management Platform
+- **Automatic Blocking**: `data-blockingmode="auto"` prevents cookies until consent
+- **Google Consent Mode v2**: Seamless integration with GA4 analytics
+- **IAB TCF 2.2**: Transparency & Consent Framework compliance
+- **Granular Control**: Statistics, Marketing, Preferences categories
+- **Legal Protection**: EU GDPR, CCPA, and international privacy law compliance
+- **Consent Events**: `CookiebotOnAccept` integration for user property setting
 
 ### Scrolling Text System
 - **JSON Configuration**: Dynamic loading of messages from `data/scrolling-text.json`
@@ -430,12 +506,17 @@ The app includes comprehensive sharing capabilities:
 - [x] **Audio lifecycle tracking** (play, pause, buffer, volume events)
 - [x] **Sharing and social analytics** (platform-specific tracking)
 - [x] **PWA installation funnel** tracking
+- [x] **GDPR Compliance** with Cookiebot Consent Management Platform
+- [x] **Privacy-First Analytics** (consent-based, no tracking cookies)
+- [x] **Google Consent Mode v2** integration
+- [x] **IAB TCF 2.2** Transparency & Consent Framework compatibility
+- [x] **Automatic Cookie Blocking** until user consent
 - [x] Animated scrolling text banner with JSON configuration
 - [x] Professional branding and typography
 - [x] Complete favicon set for all platforms
 - [x] SEO and social media meta tags
 - [x] Keyboard shortcuts and accessibility features
-- [x] Privacy-compliant analytics (no cookies, GDPR ready)
+- [x] Legal compliance for EU GDPR and international privacy laws
 
 ### 🚧 Planned Enhancements
 - [ ] Now playing metadata display (track info, artist)
@@ -565,6 +646,13 @@ No build process required - this is a vanilla JavaScript PWA:
 - Clear browser cache and reload
 - Check service worker cache in DevTools
 - Verify network connection speed
+
+**Privacy/Analytics issues:**
+- Check if Cookiebot consent banner appears correctly
+- Verify GA4 events fire only after consent in DebugView
+- Ensure `analytics_storage` shows correct granted/denied status
+- Test consent acceptance/rejection in incognito mode
+- Check browser console for Cookiebot or gtag errors
 
 ## License
 
