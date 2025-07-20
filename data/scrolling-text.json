@@ -1,0 +1,22 @@
+{
+  "messages": [
+    "Radio Musical para amantes del Surf, el Skate, la Playa y los Deportes extremos.",
+    "🌊 Conecta con las mejores vibes del océano y la cultura surf 🏄‍♂️",
+    "🎵 Reggae, Chill, Surf Rock y más sonidos para tu lifestyle 🎶",
+    "🏖️ La banda sonora perfecta para tus sesiones de surf y skate 🛹",
+    "📻 Bahia FM - Donde la música y el océano se encuentran 🌊"
+  ],
+  "settings": {
+    "animationDuration": "2s",
+    "animationDelay": "1s",
+    "scrollDirection": "left",
+    "speed": 270,
+    "pauseBetweenMessages": 1000,
+    "fadeTransition": 500
+  },
+  "metadata": {
+    "version": "1.0",
+    "description": "Scrolling text configuration for Bahia FM",
+    "lastUpdated": "2025-01-20"
+  }
+}

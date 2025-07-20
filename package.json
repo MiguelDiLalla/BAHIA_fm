@@ -1,7 +1,7 @@
 {
   "name": "reggae-surf-radio-pwa",
   "version": "1.0.0",
-  "description": "A Progressive Web App for Surfers Bahia FM streaming station",
+  "description": "A Progressive Web App for Bahia FM streaming station",
   "main": "index.html",
   "scripts": {
     "start": "python -m http.server 8000",

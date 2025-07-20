@@ -1,9 +1,9 @@
-# Copilot Instructions for Surfers Bahia FM PWA
+# Copilot Instructions for Bahia FM PWA
 
 <!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
 
 ## Project Overview
-This is a Progressive Web App (PWA) for Surfers Bahia FM, a streaming radio station. The app provides:
+This is a Progressive Web App (PWA) for Bahia FM, a streaming radio station. The app provides:
 - Live audio streaming from `https://sonic2.sistemahost.es/8110/stream`
 - Offline-capable PWA functionality
 - Modern, responsive UI design

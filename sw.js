@@ -1,35 +1,31 @@
 // Service Worker for Surfers Bahia FM PWA
-// Version: 1.0.0
+// Version: 2.1.0 - Added JSON data files to cache management
 
-const CACHE_NAME = 'radio-cache-v1';
-const STATIC_CACHE_NAME = 'radio-static-v1';
-const DYNAMIC_CACHE_NAME = 'radio-dynamic-v1';
-
-// Files to cache immediately
+const CACHE_NAME = 'radio-cache-v2-1';
 const FILES_TO_CACHE = [
     '/',
     '/index.html',
     '/style.css',
     '/app.js',
     '/manifest.json',
-    '/assets/logo.png'
-];
-
-// Files to cache dynamically
-const DYNAMIC_CACHE_URLS = [
-    // Audio stream URLs will be handled separately
-    // API endpoints for metadata
-    // External resources
+    '/data/scrolling-text.json',
+    '/assets/logo.png',
+    '/assets/favicon/favicon.ico',
+    '/assets/favicon/favicon-16x16.png',
+    '/assets/favicon/favicon-32x32.png',
+    '/assets/favicon/apple-touch-icon.png',
+    '/assets/favicon/android-chrome-192x192.png',
+    '/assets/favicon/android-chrome-512x512.png'
 ];
 
 /**
- * Install event - cache static assets
+ * Install event - cache initial assets
  */
 self.addEventListener('install', (event) => {
-    console.log('Service Worker installing...');
+    console.log('Service Worker v2.1.0 installing...');
     
     event.waitUntil(
-        caches.open(STATIC_CACHE_NAME)
+        caches.open(CACHE_NAME)
             .then((cache) => {
                 console.log('Caching static files');
                 return cache.addAll(FILES_TO_CACHE);
@@ -46,19 +42,18 @@ self.addEventListener('install', (event) => {
 });
 
 /**
- * Activate event - clean up old caches
+ * Activate event - clear old caches
  */
 self.addEventListener('activate', (event) => {
-    console.log('Service Worker activating...');
+    console.log('Service Worker v2.1.0 activating...');
     
     event.waitUntil(
         caches.keys()
             .then((cacheNames) => {
                 return Promise.all(
                     cacheNames.map((cacheName) => {
-                        // Delete old caches
-                        if (cacheName !== STATIC_CACHE_NAME && 
-                            cacheName !== DYNAMIC_CACHE_NAME) {
+                        // Delete any cache that doesn't match current version
+                        if (cacheName !== CACHE_NAME) {
                             console.log('Deleting old cache:', cacheName);
                             return caches.delete(cacheName);
                         }
@@ -77,60 +72,84 @@ self.addEventListener('activate', (event) => {
 });
 
 /**
- * Fetch event - handle network requests
+ * Fetch event - handle network requests with network-first for HTML
  */
 self.addEventListener('fetch', (event) => {
     const request = event.request;
-    const url = new URL(request.url);
     
     // Skip non-HTTP(S) requests (chrome-extension, etc.)
     if (!request.url.startsWith('http')) {
         return;
     }
     
-    // Skip cross-origin requests for audio streams
-    if (url.origin !== location.origin && isAudioStream(request.url)) {
-        return; // Let browser handle audio streams directly
+    // Skip audio stream requests - let browser handle directly
+    if (isAudioStream(request.url)) {
+        return;
     }
     
-    // Handle different types of requests
+    // Handle navigation requests (HTML pages) with network-first strategy
+    if (request.mode === 'navigate') {
+        event.respondWith(networkFirstForNavigation(request));
+        return;
+    }
+    
+    // Handle other requests based on file type
     if (request.method === 'GET') {
         event.respondWith(handleGetRequest(request));
     }
 });
 
 /**
- * Handle GET requests with cache strategy
+ * Network-first strategy for navigation (HTML files)
+ * This ensures the latest version is always served when possible
+ */
+async function networkFirstForNavigation(request) {
+    try {
+        console.log('Network-first for navigation:', request.url);
+        
+        // Try network first
+        const networkResponse = await fetch(request);
+        
+        if (networkResponse.ok) {
+            // Update cache with fresh content
+            const cache = await caches.open(CACHE_NAME);
+            cache.put(request, networkResponse.clone());
+            console.log('Navigation cache updated:', request.url);
+            return networkResponse;
+        }
+        
+        throw new Error('Network response not ok');
+        
+    } catch (error) {
+        console.log('Network failed for navigation, trying cache:', error.message);
+        
+        // Fallback to cache
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        
+        // Final fallback - return offline page or basic error
+        return new Response(
+            '<!DOCTYPE html><html><head><title>Offline - Surfers Bahia FM</title></head><body><h1>You are offline</h1><p>Please check your internet connection.</p></body></html>',
+            { headers: { 'Content-Type': 'text/html' } }
+        );
+    }
+}
+
+/**
+ * Handle GET requests for static assets
  */
 async function handleGetRequest(request) {
-    // Skip invalid URLs
     try {
         const url = new URL(request.url);
-        if (!url.protocol.startsWith('http')) {
-            return fetch(request);
-        }
-    } catch (error) {
-        console.error('Invalid URL:', request.url);
-        return new Response('Invalid URL', { status: 400 });
-    }
-    
-    try {
-        // Strategy 1: Cache First (for static assets)
-        if (isStaticAsset(request.url)) {
-            return await cacheFirst(request);
+        
+        // Network-first for CSS, JS, and JSON data files to ensure updates
+        if (isCriticalAsset(request.url)) {
+            return await networkFirstForAssets(request);
         }
         
-        // Strategy 2: Network First (for dynamic content)
-        if (isDynamicContent(request.url)) {
-            return await networkFirst(request);
-        }
-        
-        // Strategy 3: Stale While Revalidate (for API calls)
-        if (isApiCall(request.url)) {
-            return await staleWhileRevalidate(request);
-        }
-        
-        // Default: Cache First
+        // Cache-first for images and other static assets
         return await cacheFirst(request);
         
     } catch (error) {
@@ -140,7 +159,39 @@ async function handleGetRequest(request) {
 }
 
 /**
- * Cache First strategy
+ * Network-first strategy for critical assets (CSS, JS, JSON)
+ */
+async function networkFirstForAssets(request) {
+    try {
+        console.log('Network-first for asset:', request.url);
+        
+        const networkResponse = await fetch(request);
+        
+        if (networkResponse.ok) {
+            // Update cache with fresh content
+            const cache = await caches.open(CACHE_NAME);
+            cache.put(request, networkResponse.clone());
+            console.log('Asset cache updated:', request.url);
+            return networkResponse;
+        }
+        
+        throw new Error('Network response not ok');
+        
+    } catch (error) {
+        console.log('Network failed for asset, trying cache:', error.message);
+        
+        // Fallback to cache
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        
+        throw error;
+    }
+}
+
+/**
+ * Cache-first strategy for non-critical assets
  */
 async function cacheFirst(request) {
     try {
@@ -152,274 +203,77 @@ async function cacheFirst(request) {
         
         const networkResponse = await fetch(request);
         
-        // Cache successful responses
         if (networkResponse.ok) {
-            try {
-                const cache = await caches.open(STATIC_CACHE_NAME);
-                cache.put(request, networkResponse.clone());
-            } catch (cacheError) {
-                console.warn('Failed to cache response:', cacheError);
-            }
-        }
-        
-        return networkResponse;
-    } catch (error) {
-        console.error('Network request failed:', error);
-        return await handleOfflineResponse(request);
-    }
-}
-
-/**
- * Network First strategy
- */
-async function networkFirst(request) {
-    try {
-        const networkResponse = await fetch(request);
-        
-        // Cache successful responses
-        if (networkResponse.ok) {
-            const cache = await caches.open(DYNAMIC_CACHE_NAME);
+            const cache = await caches.open(CACHE_NAME);
             cache.put(request, networkResponse.clone());
         }
         
         return networkResponse;
+        
     } catch (error) {
-        console.error('Network request failed, trying cache:', error);
-        const cachedResponse = await caches.match(request);
-        
-        if (cachedResponse) {
-            return cachedResponse;
-        }
-        
+        console.error('Cache-first strategy failed:', error);
         return await handleOfflineResponse(request);
     }
-}
-
-/**
- * Stale While Revalidate strategy
- */
-async function staleWhileRevalidate(request) {
-    const cachedResponse = await caches.match(request);
-    
-    // Always try to fetch from network in the background
-    const networkPromise = fetch(request).then(async (networkResponse) => {
-        if (networkResponse.ok) {
-            const cache = await caches.open(DYNAMIC_CACHE_NAME);
-            cache.put(request, networkResponse.clone());
-        }
-        return networkResponse;
-    }).catch((error) => {
-        console.error('Background fetch failed:', error);
-    });
-    
-    // Return cached response immediately if available
-    if (cachedResponse) {
-        return cachedResponse;
-    }
-    
-    // Otherwise wait for network
-    return networkPromise;
-}
-
-/**
- * Check if URL is a static asset
- */
-function isStaticAsset(url) {
-    return url.includes('.css') || 
-           url.includes('.js') || 
-           url.includes('.png') || 
-           url.includes('.jpg') || 
-           url.includes('.jpeg') || 
-           url.includes('.gif') || 
-           url.includes('.svg') || 
-           url.includes('.ico') ||
-           url.includes('.woff') ||
-           url.includes('.woff2') ||
-           url.includes('.ttf');
-}
-
-/**
- * Check if URL is dynamic content
- */
-function isDynamicContent(url) {
-    return url.includes('/api/') || 
-           url.includes('/metadata/') || 
-           url.includes('/nowplaying/');
-}
-
-/**
- * Check if URL is an API call
- */
-function isApiCall(url) {
-    return url.includes('/api/') || 
-           url.includes('/metadata/');
 }
 
 /**
  * Check if URL is an audio stream
  */
 function isAudioStream(url) {
-    return url.includes('/stream') || 
+    return url.includes('stream') || 
            url.includes('.mp3') || 
            url.includes('.aac') || 
-           url.includes('.m3u8') ||
-           url.includes('sonic2.sistemahost.es');
+           url.includes('8110') ||
+           url.includes('sistemahost.es');
+}
+
+/**
+ * Check if asset is critical (CSS, JS, JSON) - needs network-first
+ */
+function isCriticalAsset(url) {
+    return url.endsWith('.css') || 
+           url.endsWith('.js') ||
+           url.endsWith('.json') ||
+           url.includes('style.css') ||
+           url.includes('app.js') ||
+           url.includes('scrolling-text.json') ||
+           url.includes('/data/');
 }
 
 /**
  * Handle offline responses
  */
 async function handleOfflineResponse(request) {
-    const url = new URL(request.url);
-    
-    // For navigation requests, return cached index.html
     if (request.destination === 'document') {
-        const cachedIndex = await caches.match('/index.html');
-        if (cachedIndex) {
-            return cachedIndex;
+        const cachedResponse = await caches.match('/index.html');
+        if (cachedResponse) {
+            return cachedResponse;
         }
     }
     
-    // For API requests, return offline message
-    if (isApiCall(request.url)) {
-        return new Response(
-            JSON.stringify({
-                error: 'Offline',
-                message: 'This feature requires an internet connection'
-            }),
-            {
-                status: 503,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-    }
-    
-    // For other requests, return generic offline response
-    return new Response(
-        'This content is not available offline',
-        {
-            status: 503,
-            headers: {
-                'Content-Type': 'text/plain'
-            }
-        }
-    );
+    return new Response('Offline - content not available', {
+        status: 503,
+        statusText: 'Service Unavailable'
+    });
 }
 
 /**
- * Message handling for communication with main thread
+ * Message handling for cache updates
  */
 self.addEventListener('message', (event) => {
-    const { type, data } = event.data;
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
+    }
     
-    switch (type) {
-        case 'SKIP_WAITING':
-            self.skipWaiting();
-            break;
-            
-        case 'CLEAR_CACHE':
-            clearAllCaches().then(() => {
-                event.ports[0].postMessage({ success: true });
-            });
-            break;
-            
-        case 'CACHE_URLS':
-            cacheUrls(data.urls).then(() => {
-                event.ports[0].postMessage({ success: true });
-            });
-            break;
-            
-        default:
-            console.warn('Unknown message type:', type);
-    }
-});
-
-/**
- * Clear all caches
- */
-async function clearAllCaches() {
-    const cacheNames = await caches.keys();
-    await Promise.all(
-        cacheNames.map(cacheName => caches.delete(cacheName))
-    );
-    console.log('All caches cleared');
-}
-
-/**
- * Cache specific URLs
- */
-async function cacheUrls(urls) {
-    const cache = await caches.open(DYNAMIC_CACHE_NAME);
-    await cache.addAll(urls);
-    console.log('URLs cached:', urls);
-}
-
-/**
- * Periodic background sync (if supported)
- */
-self.addEventListener('sync', (event) => {
-    if (event.tag === 'background-sync') {
+    if (event.data && event.data.type === 'CLEAR_CACHE') {
         event.waitUntil(
-            // TODO: Implement background sync logic
-            // e.g., sync playlist, metadata, etc.
-            console.log('Background sync triggered')
+            caches.keys().then((cacheNames) => {
+                return Promise.all(
+                    cacheNames.map((cacheName) => caches.delete(cacheName))
+                );
+            })
         );
     }
 });
 
-/**
- * Push notifications (if supported)
- */
-self.addEventListener('push', (event) => {
-    if (event.data) {
-        const data = event.data.json();
-        
-        const options = {
-            body: data.body,
-            icon: '/assets/logo.png',
-            badge: '/assets/logo.png',
-            vibrate: [200, 100, 200],
-            data: {
-                url: data.url || '/'
-            },
-            actions: [
-                {
-                    action: 'open',
-                    title: 'Open Radio',
-                    icon: '/assets/logo.png'
-                },
-                {
-                    action: 'close',
-                    title: 'Close',
-                    icon: '/assets/logo.png'
-                }
-            ]
-        };
-        
-        event.waitUntil(
-            self.registration.showNotification(data.title, options)
-        );
-    }
-});
-
-/**
- * Notification click handling
- */
-self.addEventListener('notificationclick', (event) => {
-    event.notification.close();
-    
-    if (event.action === 'open') {
-        event.waitUntil(
-            clients.openWindow(event.notification.data.url)
-        );
-    }
-});
-
-// TODO: Add more sophisticated caching strategies
-// TODO: Add background sync for metadata
-// TODO: Add push notification support
-// TODO: Add offline page functionality
-// TODO: Add cache size management
-// TODO: Add analytics tracking for offline usage
+console.log('Service Worker v2.1.0 script loaded');

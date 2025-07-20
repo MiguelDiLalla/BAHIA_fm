@@ -4,7 +4,7 @@ body {
     color: #111;
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 400;
+    font-weight: 700;
     font-style: normal;
     font-variation-settings: "ROND" 0;
     margin: 0;
@@ -44,7 +44,8 @@ body {
 
 .nav-right {
     display: flex;
-    gap: 20px;
+    gap: 15px;
+    align-items: center;
 }
 
 .nav-right a {
@@ -52,7 +53,7 @@ body {
     text-decoration: none;
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 500;
+    font-weight: 700;
     font-style: normal;
     font-variation-settings: "ROND" 0;
     transition: color 0.3s ease;
@@ -62,14 +63,157 @@ body {
     color: #007bff;
 }
 
+/* Social Media Icons */
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    color: #111;
+}
+
+.social-link:hover {
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.social-link svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+/* Share Dropdown Styles */
+.share-container {
+    position: relative;
+    display: inline-block;
+}
+
+.share-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.share-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #111;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    min-width: 180px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    padding: 8px 0;
+    margin-top: 8px;
+}
+
+.share-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.share-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #111;
+}
+
+.share-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #fff !important;
+    text-decoration: none;
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.share-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff !important;
+}
+
+.share-option svg {
+    width: 16px;
+    height: 16px;
+    fill: #fff !important;
+    flex-shrink: 0;
+}
+
+.share-option span {
+    flex: 1;
+    color: #fff !important;
+}
+
+/* Animated Text Strip */
+.animated-strip {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: #111;
+    color: #fff;
+    overflow: hidden;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+}
+
+.scrolling-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.scrolling-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
 /* Main Content Styles */
 .main-content {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 60px;
-    min-height: calc(100vh - 60px);
+    padding-top: 100px; /* 60px navbar + 40px animated strip */
+    min-height: calc(100vh - 100px);
 }
 
 .player-container {
@@ -85,15 +229,19 @@ body {
     height: 200px;
     border-radius: 50%;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     object-fit: cover;
     border: 4px solid #111;
+    /* Default paused state - translucent/dimmed */
+    opacity: 0.4;
 }
 
 .station-logo:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+    /* Brighten on hover to indicate it's clickable */
+    opacity: 0.7;
 }
 
 /* Playing Animation */
@@ -108,6 +256,8 @@ body {
 
 .playing {
     animation: bump 1s ease-in-out infinite;
+    /* Remove dimming when playing - full opacity */
+    opacity: 1 !important;
 }
 
 /* Controls Styles */
@@ -281,7 +431,7 @@ body {
     font-size: 0.9rem;
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 400;
+    font-weight: 700;
     font-style: normal;
     font-variation-settings: "ROND" 0;
 }
@@ -298,7 +448,7 @@ body {
 .doto-regular {
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 400;
+    font-weight: 700;
     font-style: normal;
     font-variation-settings: "ROND" 0;
 }
@@ -362,6 +512,23 @@ body {
         font-size: 0.9rem;
     }
     
+    /* Share dropdown mobile adjustments */
+    .share-dropdown {
+        right: 0;
+        min-width: 200px;
+        max-width: calc(100vw - 30px);
+    }
+    
+    .share-option {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .share-option i {
+        font-size: 1.1rem;
+        margin-right: 10px;
+    }
+    
     .main-content {
         padding-top: 50px;
         min-height: calc(100vh - 50px);
@@ -384,6 +551,22 @@ body {
     
     .nav-right a {
         font-size: 0.8rem;
+    }
+    
+    /* Share dropdown small mobile adjustments */
+    .share-dropdown {
+        min-width: 180px;
+        font-size: 0.85rem;
+    }
+    
+    .share-option {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .share-option i {
+        font-size: 1rem;
+        margin-right: 8px;
     }
     
     .station-logo {
