@@ -293,12 +293,12 @@ body.theme-originalcolor .share-option:hover span {
     animation: pulse 2s ease-in-out infinite;
 }
 
-/* OriginalColor theme scrolling text */
-body.theme-originalcolor .initial-message {
+/* Scrolling text color for default (colorful) theme */
+body:not(.theme-secondary) .initial-message {
     color: #F2D338;
 }
 
-body.theme-originalcolor .scrolling-message {
+body:not(.theme-secondary) .scrolling-message {
     color: #F2D338;
 }
 
