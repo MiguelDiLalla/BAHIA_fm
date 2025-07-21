@@ -195,12 +195,12 @@ body.theme-originalcolor .social-link:hover {
     color: var(--bg-primary) !important;
 }
 
-/* OriginalColor theme share options */
-body.theme-originalcolor .share-option {
+/* Colorful theme share options */
+body:not(.theme-secondary) .share-option {
     color: #F2D338 !important;
 }
 
-body.theme-originalcolor .share-option:hover {
+body:not(.theme-secondary) .share-option:hover {
     background-color: var(--accent-primary);
     color: var(--border-primary) !important;
 }
@@ -212,12 +212,12 @@ body.theme-originalcolor .share-option:hover {
     flex-shrink: 0;
 }
 
-/* OriginalColor theme share option svg */
-body.theme-originalcolor .share-option svg {
+/* Colorful theme share option svg */
+body:not(.theme-secondary) .share-option svg {
     fill: #F2D338 !important;
 }
 
-body.theme-originalcolor .share-option:hover svg {
+body:not(.theme-secondary) .share-option:hover svg {
     fill: var(--border-primary) !important;
 }
 
@@ -226,12 +226,12 @@ body.theme-originalcolor .share-option:hover svg {
     color: var(--bg-primary) !important;
 }
 
-/* OriginalColor theme share option span */
-body.theme-originalcolor .share-option span {
+/* Colorful theme share option span */
+body:not(.theme-secondary) .share-option span {
     color: #F2D338 !important;
 }
 
-body.theme-originalcolor .share-option:hover span {
+body:not(.theme-secondary) .share-option:hover span {
     color: var(--border-primary) !important;
 }
 
@@ -774,8 +774,8 @@ body.theme-originalcolor .install-btn:hover {
     }
 }
 
-/* Theme toggle icon rotation when active */
-body.theme-originalcolor .theme-toggle {
+/* Colorful theme toggle button */
+body:not(.theme-secondary) .theme-toggle {
     background: linear-gradient(45deg, #ffffff, #888888, #333333, #000000);
     background-size: 400% 400%;
     animation: gradientShift 2s ease infinite, rotateIcon 0.5s ease;
