@@ -326,8 +326,8 @@ body.theme-originalcolor .scrolling-message {
 
 /* Logo/Play Button Styles */
 .station-logo {
-    width: 200px;
-    height: 200px;
+    width: 300px; /* 150% of original 200px */
+    height: 300px;
     border-radius: 50%;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
@@ -343,6 +343,20 @@ body.theme-originalcolor .scrolling-message {
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
     /* Brighten on hover to indicate it's clickable */
     opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .station-logo {
+        width: 225px; /* 150% of original 150px */
+        height: 225px;
+    }
+}
+
+@media (max-width: 480px) {
+    .station-logo {
+        width: 180px; /* 150% of original 120px */
+        height: 180px;
+    }
 }
 
 /* Playing Animation */
@@ -649,8 +663,8 @@ body.theme-originalcolor .install-btn:hover {
     }
     
     .station-logo {
-        width: 150px;
-        height: 150px;
+        width: 225px; /* 150% of original 150px */
+        height: 225px;
     }
 }
 
@@ -680,8 +694,8 @@ body.theme-originalcolor .install-btn:hover {
     }
     
     .station-logo {
-        width: 120px;
-        height: 120px;
+        width: 180px; /* 150% of original 120px */
+        height: 180px;
     }
     
     .player-container {
