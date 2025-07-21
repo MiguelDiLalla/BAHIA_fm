@@ -23,6 +23,7 @@ const nowPlaying = document.getElementById('now-playing');
 const shareBtn = document.getElementById('share-btn');
 const shareDropdown = document.getElementById('share-dropdown');
 const scrollingContainer = document.getElementById('scrolling-container');
+const themeToggle = document.getElementById('theme-toggle');
 
 // Application state
 let isPlaying = false;
@@ -174,6 +175,9 @@ function init() {
     
     // Setup GA4 tracking
     setupGA4Tracking();
+    
+    // Initialize theme system
+    initializeTheme();
     
     // Fire manual page_view with install state
     gaEvent('page_view', {
@@ -1090,6 +1094,77 @@ document.addEventListener('DOMContentLoaded', () => {
     setupMediaSession();
     setupNetworkMonitoring();
 });
+
+// ================================
+// THEME SYSTEM
+// ================================
+
+/**
+ * Initialize theme system
+ */
+
+function initializeTheme() {
+    // Load saved theme from localStorage
+    const savedTheme = localStorage.getItem('bahiaFM-theme');
+    if (savedTheme === 'secondary') {
+        applySecondaryTheme();
+    } else {
+        applyDefaultTheme();
+    }
+    // Setup theme toggle button event listener
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+}
+
+/**
+ * Toggle between default (OriginalColor) and secondary theme
+ */
+function toggleTheme() {
+    const body = document.body;
+    const isSecondary = body.classList.contains('theme-secondary');
+    if (isSecondary) {
+        // Switch to default theme
+        applyDefaultTheme();
+        gaEvent('theme_changed', { theme: 'default' });
+    } else {
+        // Switch to secondary theme
+        applySecondaryTheme();
+        gaEvent('theme_changed', { theme: 'secondary' });
+    }
+}
+
+/**
+ * Apply the default (OriginalColor) theme
+ */
+function applyDefaultTheme() {
+    const body = document.body;
+    body.classList.remove('theme-secondary');
+    // Update logo to full color version
+    if (logo) {
+        logo.src = 'assets/logo_fullcolor.png';
+        logo.alt = 'Bahia FM Logo - Full Color';
+    }
+    // Save theme preference
+    localStorage.setItem('bahiaFM-theme', 'default');
+    console.log('🎨 OriginalColor theme applied');
+}
+
+/**
+ * Apply the secondary (previous) theme
+ */
+function applySecondaryTheme() {
+    const body = document.body;
+    body.classList.add('theme-secondary');
+    // Update logo to default
+    if (logo) {
+        logo.src = 'assets/logo.png';
+        logo.alt = 'Bahia FM Logo';
+    }
+    // Save theme preference
+    localStorage.setItem('bahiaFM-theme', 'secondary');
+    console.log('🎨 Secondary theme applied');
+}
 
 // TODO: Add analytics tracking
 // TODO: Add playlist/history functionality

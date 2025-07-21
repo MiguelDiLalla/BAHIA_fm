@@ -80,3 +80,6 @@ Thumbs.db
 # Build artifacts
 dist/
 build/
+
+# Ignore Photoshop files
+*.psd

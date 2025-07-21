@@ -1,7 +1,41 @@
-/* Global Styles */
+/* CSS Variables for OriginalColor Theme (now default) */
+:root {
+    --bg-primary: #03258C;
+    --bg-secondary: rgba(3, 37, 140, 0.95);
+    --text-primary: #F2D338;
+    --text-secondary: #3DD9C9;
+    --border-primary: #0D0D0D;
+    --border-secondary: rgba(242, 211, 56, 0.2);
+    --accent-primary: #3DD9C9;
+    --accent-green: #3DD9C9;
+    --accent-green-hover: #2BC7B5;
+    --logo-asset: url('./assets/logo_fullcolor.png');
+    --bg-asset: url('./assets/BahiaFM_Color_background.png');
+}
+
+/* Secondary (previous) theme */
+body.theme-secondary {
+    --bg-primary: #fff;
+    --bg-secondary: rgba(255, 255, 255, 0.95);
+    --text-primary: #111;
+    --text-secondary: #666;
+    --border-primary: #111;
+    --border-secondary: #eee;
+    --accent-primary: #007bff;
+    --accent-green: #28a745;
+    --accent-green-hover: #218838;
+    --logo-asset: url('./assets/logo.png');
+    --bg-asset: url('./assets/BahiaFM_BW_background.png');
+}
+
+/* Apply theme variables to elements */
 body {
-    background: #fff;
-    color: #111;
+    background: var(--bg-primary);
+    background-image: var(--bg-asset);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-primary);
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
     font-weight: 700;
@@ -19,9 +53,9 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--bg-secondary);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-secondary);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,7 +69,7 @@ body {
     margin: 0;
     font-size: 1.5rem;
     font-weight: 700;
-    color: #111;
+    color: var(--text-primary);
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
@@ -49,7 +83,7 @@ body {
 }
 
 .nav-right a {
-    color: #111;
+    color: var(--text-primary);
     text-decoration: none;
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
@@ -60,7 +94,7 @@ body {
 }
 
 .nav-right a:hover {
-    color: #007bff;
+    color: var(--accent-primary);
 }
 
 /* Social Media Icons */
@@ -71,13 +105,19 @@ body {
     padding: 8px;
     border-radius: 50%;
     transition: all 0.3s ease;
-    color: #111;
+    color: var(--text-primary);
 }
 
 .social-link:hover {
-    color: #007bff;
+    color: var(--accent-primary);
     background-color: rgba(0, 123, 255, 0.1);
     transform: scale(1.1);
+}
+
+/* OriginalColor theme social hover */
+body.theme-originalcolor .social-link:hover {
+    background-color: var(--accent-primary);
+    color: var(--border-primary);
 }
 
 .social-link svg {
@@ -102,8 +142,8 @@ body {
     position: absolute;
     top: 100%;
     right: 0;
-    background: #111;
-    color: #fff;
+    background: var(--border-primary);
+    color: var(--bg-primary);
     border-radius: 8px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     min-width: 180px;
@@ -131,7 +171,7 @@ body {
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid #111;
+    border-bottom: 8px solid var(--border-primary);
 }
 
 .share-option {
@@ -139,7 +179,7 @@ body {
     align-items: center;
     gap: 12px;
     padding: 12px 16px;
-    color: #fff !important;
+    color: var(--bg-primary) !important;
     text-decoration: none;
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
@@ -152,19 +192,47 @@ body {
 
 .share-option:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    color: #fff !important;
+    color: var(--bg-primary) !important;
+}
+
+/* OriginalColor theme share options */
+body.theme-originalcolor .share-option {
+    color: #F2D338 !important;
+}
+
+body.theme-originalcolor .share-option:hover {
+    background-color: var(--accent-primary);
+    color: var(--border-primary) !important;
 }
 
 .share-option svg {
     width: 16px;
     height: 16px;
-    fill: #fff !important;
+    fill: var(--bg-primary) !important;
     flex-shrink: 0;
+}
+
+/* OriginalColor theme share option svg */
+body.theme-originalcolor .share-option svg {
+    fill: #F2D338 !important;
+}
+
+body.theme-originalcolor .share-option:hover svg {
+    fill: var(--border-primary) !important;
 }
 
 .share-option span {
     flex: 1;
-    color: #fff !important;
+    color: var(--bg-primary) !important;
+}
+
+/* OriginalColor theme share option span */
+body.theme-originalcolor .share-option span {
+    color: #F2D338 !important;
+}
+
+body.theme-originalcolor .share-option:hover span {
+    color: var(--border-primary) !important;
 }
 
 /* Animated Text Strip */
@@ -174,8 +242,8 @@ body {
     left: 0;
     width: 100%;
     height: 40px;
-    background: #111;
-    color: #fff;
+    background: var(--border-primary);
+    color: var(--bg-primary);
     overflow: hidden;
     z-index: 999;
     display: flex;
@@ -220,9 +288,18 @@ body {
     font-variation-settings: "ROND" 0;
     font-size: 14px;
     opacity: 1;
-    color: #fff;
+    color: var(--bg-primary);
     text-align: center;
     animation: pulse 2s ease-in-out infinite;
+}
+
+/* OriginalColor theme scrolling text */
+body.theme-originalcolor .initial-message {
+    color: #F2D338;
+}
+
+body.theme-originalcolor .scrolling-message {
+    color: #F2D338;
 }
 
 @keyframes pulse {
@@ -256,7 +333,7 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     object-fit: cover;
-    border: 4px solid #111;
+    border: 4px solid var(--border-primary);
     /* Default paused state - translucent/dimmed */
     opacity: 0.4;
 }
@@ -294,8 +371,8 @@ body {
 }
 
 .control-btn {
-    background: #111;
-    color: #fff;
+    background: var(--border-primary);
+    color: var(--bg-primary);
     border: none;
     padding: 12px 24px;
     border-radius: 25px;
@@ -311,7 +388,7 @@ body {
 }
 
 .control-btn:hover {
-    background: #333;
+    background: var(--text-secondary);
     transform: translateY(-2px);
 }
 
@@ -321,8 +398,8 @@ body {
 
 /* Install Button Styles */
 .install-btn {
-    background: #28a745;
-    color: #fff;
+    background: var(--accent-green);
+    color: var(--bg-primary);
     border: none;
     padding: 8px 16px;
     border-radius: 20px;
@@ -340,9 +417,18 @@ body {
 }
 
 .install-btn:hover {
-    background: #218838;
+    background: var(--accent-green-hover);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* OriginalColor theme install button */
+body.theme-originalcolor .install-btn {
+    color: var(--border-primary);
+}
+
+body.theme-originalcolor .install-btn:hover {
+    box-shadow: 0 2px 8px var(--accent-primary);
 }
 
 .install-btn:active {
@@ -367,7 +453,7 @@ body {
 /* Volume Percentage Display */
 .volume-percentage {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-secondary);
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
@@ -383,7 +469,7 @@ body {
 }
 
 .volume-percentage.high {
-    color: #28a745;
+    color: var(--accent-green);
 }
 
 #volume-slider {
@@ -627,6 +713,68 @@ body {
     padding: 10px;
     border-radius: 5px;
     margin-top: 20px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    background: linear-gradient(45deg, #03258C, #3DD9C9, #F2D338, #0D0D0D);
+    background-size: 400% 400%;
+    animation: gradientShift 4s ease infinite;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 24px;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Gradient animation for theme toggle button */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Theme toggle icon rotation when active */
+body.theme-originalcolor .theme-toggle {
+    background: linear-gradient(45deg, #ffffff, #888888, #333333, #000000);
+    background-size: 400% 400%;
+    animation: gradientShift 2s ease infinite, rotateIcon 0.5s ease;
+    color: #000;
+}
+
+@keyframes rotateIcon {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* TODO: Add custom styles for different themes */
