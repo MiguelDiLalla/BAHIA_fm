@@ -344,12 +344,14 @@ function toggleMute() {
         audio.volume = lastVolume;
         muteBtn.classList.toggle('muted', audio.volume === 0);
         volumeSlider.value = lastVolume;
+    updateMuteIcon();
         gaEvent('mute_off');
     } else {
         lastVolume = audio.volume;
         audio.muted = true;
         muteBtn.classList.add('muted');
         volumeSlider.value = 0;
+    updateMuteIcon();
         gaEvent('mute_on');
     }
     updateUI();
@@ -635,6 +637,7 @@ function adjustVolume(increment) {
     const newVolume = Math.max(0, Math.min(1, audio.volume + increment));
     audio.volume = newVolume;
     volumeSlider.value = newVolume;
+    updateMuteIcon();
     lastVolume = newVolume;
     
     if (newVolume === 0) {
@@ -681,6 +684,16 @@ function handleAudioError(error) {
 /**
  * Update UI elements
  */
+function updateMuteIcon() {
+    if (audio.muted || audio.volume === 0) {
+        muteBtn.classList.add("muted");
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+    } else {
+        muteBtn.classList.remove("muted");
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+    }
+}
+
 function updateUI() {
     // Update logo state
     if (isLoading) {
@@ -691,6 +704,7 @@ function updateUI() {
     
     // Update volume slider
     volumeSlider.value = audio.muted ? 0 : audio.volume;
+    updateMuteIcon();
     
     // TODO: Update now playing information
     // TODO: Update favicon based on state

@@ -421,9 +421,9 @@ body:not(.theme-secondary) .scrolling-message {
     min-width: 120px;
 }
 
-.control-btn img {
-    width: 24px;
-    height: 24px;
+
+ .control-btn i {
+    font-size: 24px;
 }
 
 #mute-btn.muted {
@@ -781,9 +781,10 @@ body.theme-originalcolor .install-btn:hover {
     font-size: 24px;
 }
 
-.theme-toggle img {
-    width: 24px;
-    height: 24px;
+
+.theme-toggle i {
+    font-size: 24px;
+
 }
 
 .theme-toggle:hover {
