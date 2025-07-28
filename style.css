@@ -9,8 +9,8 @@
     --accent-primary: #3DD9C9;
     --accent-green: #3DD9C9;
     --accent-green-hover: #2BC7B5;
-    --logo-asset: url('./assets/logo_fullcolor.png');
-    --bg-asset: url('./assets/BahiaFM_Color_background.png');
+    --logo-asset: url('./assets/logo_fullcolor.webp');
+    --bg-asset: url('./assets/BahiaFM_Color_background.webp');
 }
 
 /* Secondary (previous) theme */
@@ -24,8 +24,8 @@ body.theme-secondary {
     --accent-primary: #007bff;
     --accent-green: #28a745;
     --accent-green-hover: #218838;
-    --logo-asset: url('./assets/logo.png');
-    --bg-asset: url('./assets/BahiaFM_BW_background.png');
+    --logo-asset: url('./assets/logo.webp');
+    --bg-asset: url('./assets/BahiaFM_BW_background.webp');
 }
 
 /* Apply theme variables to elements */
@@ -124,6 +124,26 @@ body.theme-originalcolor .social-link:hover {
     width: 24px;
     height: 24px;
     fill: currentColor;
+}
+
+.surf-btn {
+    display: inline-block;
+    padding: 0;
+    border: 1px solid #000;
+    border-radius: 8px;
+    background: transparent;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.surf-btn:hover {
+    transform: scale(1.05);
+}
+
+.surf-btn img {
+    display: block;
+    height: 32px;
+    width: auto;
 }
 
 /* Share Dropdown Styles */
@@ -399,6 +419,15 @@ body:not(.theme-secondary) .scrolling-message {
     font-variation-settings: "ROND" 0;
     transition: all 0.3s ease;
     min-width: 120px;
+}
+
+.control-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+#mute-btn.muted {
+    opacity: 0.5;
 }
 
 .control-btn:hover {
@@ -750,6 +779,11 @@ body.theme-originalcolor .install-btn:hover {
     justify-content: center;
     color: #fff;
     font-size: 24px;
+}
+
+.theme-toggle img {
+    width: 24px;
+    height: 24px;
 }
 
 .theme-toggle:hover {

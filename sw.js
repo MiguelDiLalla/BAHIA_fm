@@ -9,7 +9,7 @@ const FILES_TO_CACHE = [
     '/app.js',
     '/manifest.json',
     '/data/scrolling-text.json',
-    '/assets/logo.png',
+    '/assets/logo.webp',
     '/assets/favicon/favicon.ico',
     '/assets/favicon/favicon-16x16.png',
     '/assets/favicon/favicon-32x32.png',
