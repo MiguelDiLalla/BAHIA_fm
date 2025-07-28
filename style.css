@@ -280,6 +280,18 @@ body:not(.theme-secondary) .share-option:hover span {
     z-index: 999;
     display: flex;
     align-items: center;
+.surf-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: inline-block;
+    padding: 0;
+    border: 5px solid #000;      /* Thicker border */
+    border-radius: 12px;         /* Rounded corners (optional) */
+    padding: 4px;                /* Optional: space inside border */
+    background: rgba(0,0,0,0.1); /* Optional: subtle background */
+    transition: border-color 0.2s;
+}
 }
 
 .scrolling-container {
