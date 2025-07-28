@@ -28,6 +28,14 @@ body.theme-secondary {
     --bg-asset: url('./assets/BahiaFM_BW_background.webp');
 }
 
+/* Ensure Font Awesome icons appear white */
+.fa,
+.fa-solid,
+.fa-brands,
+.fa-regular {
+    color: #fff;
+}
+
 /* Apply theme variables to elements */
 body {
     background: var(--bg-primary);
@@ -127,13 +135,17 @@ body.theme-originalcolor .social-link:hover {
 }
 
 .surf-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
     display: inline-block;
     padding: 0;
-    border: 1px solid #000;
+    border: 2px solid #000;
     border-radius: 8px;
-    background: transparent;
+    background: #000;
     overflow: hidden;
     transition: transform 0.3s ease;
+    z-index: 1000;
 }
 
 .surf-btn:hover {
@@ -422,8 +434,9 @@ body:not(.theme-secondary) .scrolling-message {
 }
 
 
- .control-btn i {
+.control-btn i {
     font-size: 24px;
+    color: #fff;
 }
 
 #mute-btn.muted {
