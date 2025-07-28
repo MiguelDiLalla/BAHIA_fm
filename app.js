@@ -342,14 +342,16 @@ function toggleMute() {
     if (audio.muted) {
         audio.muted = false;
         audio.volume = lastVolume;
-        muteBtn.textContent = audio.volume === 0 ? '🔇' : '🔈';
+        muteBtn.classList.toggle('muted', audio.volume === 0);
         volumeSlider.value = lastVolume;
+    updateMuteIcon();
         gaEvent('mute_off');
     } else {
         lastVolume = audio.volume;
         audio.muted = true;
-        muteBtn.textContent = '🔇';
+        muteBtn.classList.add('muted');
         volumeSlider.value = 0;
+    updateMuteIcon();
         gaEvent('mute_on');
     }
     updateUI();
@@ -574,10 +576,10 @@ function handleVolumeChange(event) {
     
     if (volume === 0) {
         audio.muted = true;
-        muteBtn.textContent = '🔇';
+        muteBtn.classList.add('muted');
     } else {
         audio.muted = false;
-        muteBtn.textContent = '🔈';
+        muteBtn.classList.remove('muted');
     }
     
     // Update volume percentage display
@@ -635,14 +637,15 @@ function adjustVolume(increment) {
     const newVolume = Math.max(0, Math.min(1, audio.volume + increment));
     audio.volume = newVolume;
     volumeSlider.value = newVolume;
+    updateMuteIcon();
     lastVolume = newVolume;
     
     if (newVolume === 0) {
         audio.muted = true;
-        muteBtn.textContent = '🔇';
+        muteBtn.classList.add('muted');
     } else {
         audio.muted = false;
-        muteBtn.textContent = '🔈';
+        muteBtn.classList.remove('muted');
     }
     
     // Update volume percentage display
@@ -681,6 +684,16 @@ function handleAudioError(error) {
 /**
  * Update UI elements
  */
+function updateMuteIcon() {
+    if (audio.muted || audio.volume === 0) {
+        muteBtn.classList.add("muted");
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+    } else {
+        muteBtn.classList.remove("muted");
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+    }
+}
+
 function updateUI() {
     // Update logo state
     if (isLoading) {
@@ -691,6 +704,7 @@ function updateUI() {
     
     // Update volume slider
     volumeSlider.value = audio.muted ? 0 : audio.volume;
+    updateMuteIcon();
     
     // TODO: Update now playing information
     // TODO: Update favicon based on state
@@ -875,7 +889,7 @@ function setupMediaSession() {
             artist: CONFIG.stationName,
             album: 'Live Radio',
             artwork: [
-                { src: 'assets/logo.png', sizes: '192x192', type: 'image/png' }
+                { src: 'assets/logo.webp', sizes: '192x192', type: 'image/webp' }
             ]
         });
         
@@ -1142,7 +1156,7 @@ function applyDefaultTheme() {
     body.classList.remove('theme-secondary');
     // Update logo to full color version
     if (logo) {
-        logo.src = 'assets/logo_fullcolor.png';
+        logo.src = 'assets/logo_fullcolor.webp';
         logo.alt = 'Bahia FM Logo - Full Color';
     }
     // Save theme preference
@@ -1158,7 +1172,7 @@ function applySecondaryTheme() {
     body.classList.add('theme-secondary');
     // Update logo to default
     if (logo) {
-        logo.src = 'assets/logo.png';
+        logo.src = 'assets/logo.webp';
         logo.alt = 'Bahia FM Logo';
     }
     // Save theme preference

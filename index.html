@@ -51,6 +51,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Favicon links -->
     <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
@@ -64,13 +65,13 @@
     <!-- Social Media Meta Tags for Sharing -->
     <meta property="og:title" content="Bahia FM">
     <meta property="og:description" content="Radio Musical para amantes del Surf y el Skate de la Playa y los Deportes extremos.">
-    <meta property="og:image" content="assets/social-share-image.jpg">
+    <meta property="og:image" content="assets/social-share-image.webp">
     <meta property="og:url" content="https://bahiafmtenerife.com/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Bahia FM">
     <meta name="twitter:description" content="Radio Musical para amantes del Surf y el Skate de la Playa y los Deportes extremos.">
-    <meta name="twitter:image" content="assets/social-share-image.jpg">
+    <meta name="twitter:image" content="assets/social-share-image.webp">
 </head>
 <body>
     <nav class="navbar">
@@ -89,6 +90,9 @@
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                 </svg>
+            </a>
+            <a href="https://www.surfactory.pt/" target="_blank" rel="noopener noreferrer" class="surf-btn" aria-label="SurfFactory">
+                <img src="assets/SurfFactory_PT.webp" alt="SurfFactory" />
             </a>
             <!-- Share Button with Dropdown -->
             <div class="share-container">
@@ -150,9 +154,9 @@
     <main class="main-content">
         <div class="player-container">
             <!-- TODO: Replace with actual station logo -->
-            <img id="logo-btn" src="assets/logo.png" alt="Station Logo" class="station-logo">
+            <img id="logo-btn" src="assets/logo.webp" alt="Station Logo" class="station-logo">
             <div class="controls">
-                <button id="mute-btn" class="control-btn" aria-label="Mute/Unmute">🔈</button>
+                <button id="mute-btn" class="control-btn" aria-label="Mute/Unmute"><i class="fa-solid fa-volume-high"></i></button>
                 <div class="volume-container">
                     <!-- TODO: Add volume slider -->
                     <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.7">
@@ -171,9 +175,7 @@
     </footer>
 
     <!-- Theme Toggle Button -->
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
-        🎨
-    </button>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme"><i class="fa-solid fa-palette"></i></button>
 
     <script src="app.js"></script>
 </body>
