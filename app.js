@@ -342,13 +342,13 @@ function toggleMute() {
     if (audio.muted) {
         audio.muted = false;
         audio.volume = lastVolume;
-        muteBtn.textContent = audio.volume === 0 ? '🔇' : '🔈';
+        muteBtn.classList.toggle('muted', audio.volume === 0);
         volumeSlider.value = lastVolume;
         gaEvent('mute_off');
     } else {
         lastVolume = audio.volume;
         audio.muted = true;
-        muteBtn.textContent = '🔇';
+        muteBtn.classList.add('muted');
         volumeSlider.value = 0;
         gaEvent('mute_on');
     }
@@ -574,10 +574,10 @@ function handleVolumeChange(event) {
     
     if (volume === 0) {
         audio.muted = true;
-        muteBtn.textContent = '🔇';
+        muteBtn.classList.add('muted');
     } else {
         audio.muted = false;
-        muteBtn.textContent = '🔈';
+        muteBtn.classList.remove('muted');
     }
     
     // Update volume percentage display
@@ -639,10 +639,10 @@ function adjustVolume(increment) {
     
     if (newVolume === 0) {
         audio.muted = true;
-        muteBtn.textContent = '🔇';
+        muteBtn.classList.add('muted');
     } else {
         audio.muted = false;
-        muteBtn.textContent = '🔈';
+        muteBtn.classList.remove('muted');
     }
     
     // Update volume percentage display
@@ -875,7 +875,7 @@ function setupMediaSession() {
             artist: CONFIG.stationName,
             album: 'Live Radio',
             artwork: [
-                { src: 'assets/logo.png', sizes: '192x192', type: 'image/png' }
+                { src: 'assets/logo.webp', sizes: '192x192', type: 'image/webp' }
             ]
         });
         
@@ -1142,7 +1142,7 @@ function applyDefaultTheme() {
     body.classList.remove('theme-secondary');
     // Update logo to full color version
     if (logo) {
-        logo.src = 'assets/logo_fullcolor.png';
+        logo.src = 'assets/logo_fullcolor.webp';
         logo.alt = 'Bahia FM Logo - Full Color';
     }
     // Save theme preference
@@ -1158,7 +1158,7 @@ function applySecondaryTheme() {
     body.classList.add('theme-secondary');
     // Update logo to default
     if (logo) {
-        logo.src = 'assets/logo.png';
+        logo.src = 'assets/logo.webp';
         logo.alt = 'Bahia FM Logo';
     }
     // Save theme preference
