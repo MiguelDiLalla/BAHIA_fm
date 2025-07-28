@@ -10,7 +10,7 @@
     "animationDuration": "2s",
     "animationDelay": "1s",
     "scrollDirection": "left",
-    "speed": 270,
+    "speed": 200,
     "pauseBetweenMessages": 1000,
     "fadeTransition": 500
   },
