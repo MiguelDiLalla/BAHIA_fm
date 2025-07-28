@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bahia FM Stream Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary-color: #0077b6;
+            --background: #f1f1f1;
+            --card-bg: #fff;
+            --text-color: #222;
+        }
+        body {
+            background: var(--background);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        audio {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        #metadata {
+            background: #eee;
+            font-family: monospace;
+            padding: 1rem;
+            border-radius: 4px;
+            min-height: 2em;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        @media (max-width: 600px) {
+            .card { padding: 1rem; }
+            body { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Bahia FM Stream Test</h1>
+        <audio id="audio" controls preload="none" crossorigin="anonymous">
+            <source src="https://sonic2.sistemahost.es/8110/stream" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <h2>Raw Stream Metadata</h2>
+        <div id="metadata">No metadata detected yet.</div>
+    </div>
+    <script>
+        // NOTE: Most browsers do NOT expose live ICY metadata from audio streams via JS.
+        // This demo attempts to fetch and display ICY metadata using XHR/fetch, but CORS
+        // and server config may block access. For full metadata, use a backend proxy.
+
+        const METADATA_URL = "https://sonic2.sistemahost.es/8110/stream";
+        const metadataDiv = document.getElementById('metadata');
+
+        async function fetchIcyMetadata() {
+            try {
+                // Try to fetch a small chunk with ICY headers
+                const response = await fetch(METADATA_URL, {
+                    method: 'GET',
+                    headers: { 'Icy-MetaData': '1' },
+                    mode: 'cors'
+                });
+                // Check for ICY headers
+                const icyHeaders = {};
+                for (const [key, value] of response.headers.entries()) {
+                    if (key.startsWith('icy') || key.startsWith('x-')) {
+                        icyHeaders[key] = value;
+                    }
+                }
+                let text = '';
+                if (Object.keys(icyHeaders).length > 0) {
+                    text += 'ICY Headers:\n';
+                    for (const k in icyHeaders) {
+                        text += `${k}: ${icyHeaders[k]}\n`;
+                    }
+                } else {
+                    text += 'No ICY headers detected.\n';
+                }
+                // Try to read a small chunk of the stream for raw metadata
+                const reader = response.body.getReader();
+                const { value } = await reader.read();
+                if (value) {
+                    text += '\nRaw Stream Chunk (hex):\n' +
+                        Array.from(value).map(b => b.toString(16).padStart(2, '0')).join(' ');
+                }
+                metadataDiv.textContent = text;
+            } catch (err) {
+                metadataDiv.textContent = 'Error fetching metadata: ' + err;
+            }
+        }
+
+        // Fetch metadata on page load
+        fetchIcyMetadata();
+
+        // Optionally, refresh metadata every minute
+        setInterval(fetchIcyMetadata, 60000);
+
+        // TODO: For full metadata parsing, use a backend proxy to parse ICY metadata.
+    </script>
+</body>
+</html>

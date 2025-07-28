@@ -83,3 +83,7 @@ build/
 
 # Ignore Photoshop files
 *.psd
+
+# Jupyter Notebook files
+*.ipynb
+.ipynb_checkpoints/
