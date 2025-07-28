@@ -285,7 +285,6 @@ body:not(.theme-secondary) .share-option:hover span {
     bottom: 20px;
     left: 20px;
     display: inline-block;
-    padding: 0;
     border: 5px solid #000;      /* Thicker border */
     border-radius: 12px;         /* Rounded corners (optional) */
     padding: 4px;                /* Optional: space inside border */

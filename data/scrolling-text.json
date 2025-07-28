@@ -1,16 +1,23 @@
 {
   "messages": [
-    "Radio Musical para amantes del Surf, el Skate, la Playa y los Deportes extremos.",
-    "🌊 Conecta con las mejores vibes del océano y la cultura surf 🏄‍♂️",
-    "🎵 Reggae, Chill, Surf Rock y más sonidos para tu lifestyle 🎶",
-    "🏖️ La banda sonora perfecta para tus sesiones de surf y skate 🛹",
-    "📻 Bahia FM - Donde la música y el océano se encuentran 🌊"
+    "Bahía Surfers Radio — tu ola de Classic Rock en Tenerife",
+    "Sube el volumen, baja la quilla: rockeamos cada sesión de surf 🏄‍♂️",
+    "De Hendrix a los Stones: himnos que chocan como olas 🌊🎸",
+    "Reggae sunset vibes + rock adrenalina: equilibrio perfecto",
+    "Skate, arena y riffs glam que pintan el cielo de neón ✨",
+    "Rockabilly de alto octanaje para riders sin frenos 🚀",
+    "Streaming & DAB: la música te sigue, estés donde estés",
+    "Comunidad libre, joven, viajera… ¡enciende Bahía Surfers!",
+    "La banda sonora oficial de tus take-offs y ollies 🤙",
+    "Tenerife style: mar, volcán y rock que late fuerte",
+    "Indie fresco para noches de fogata y estrellas 🌌",
+    "Espíritu extremo, actitud positiva: eso es Bahía Surfers Radio"
   ],
   "settings": {
     "animationDuration": "2s",
     "animationDelay": "1s",
     "scrollDirection": "left",
-    "speed": 200,
+    "speed": 100,
     "pauseBetweenMessages": 1000,
     "fadeTransition": 500
   },
