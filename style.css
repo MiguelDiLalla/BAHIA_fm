@@ -11,6 +11,8 @@
     --accent-green-hover: #2BC7B5;
     --logo-asset: url('./assets/logo_fullcolor.webp');
     --bg-asset: url('./assets/BahiaFM_Color_background.webp');
+    --footer-bg: #03258C; /* Colorful theme footer background */
+    --footer-text: #F2D338; /* Colorful theme footer text */
 }
 
 /* Secondary (previous) theme */
@@ -26,6 +28,8 @@ body.theme-secondary {
     --accent-green-hover: #218838;
     --logo-asset: url('./assets/logo.webp');
     --bg-asset: url('./assets/BahiaFM_BW_background.webp');
+    --footer-bg: #f8f9fa; /* Light theme footer background */
+    --footer-text: #666;   /* Light theme footer text */
 }
 
 /* Ensure Font Awesome icons appear white */
@@ -594,8 +598,9 @@ body.theme-originalcolor .install-btn:hover {
 }
 
 /* Footer Styles */
+/* Footer Styles */
 .footer {
-    background: #f8f9fa;
+    background: var(--footer-bg);
     text-align: center;
     padding: 20px;
     border-top: 1px solid #eee;
@@ -604,7 +609,7 @@ body.theme-originalcolor .install-btn:hover {
 
 .footer p {
     margin: 0;
-    color: #666;
+    color: var(--footer-text);
     font-size: 0.9rem;
     font-family: "Doto", sans-serif;
     font-optical-sizing: auto;
