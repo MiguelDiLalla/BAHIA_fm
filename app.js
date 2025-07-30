@@ -627,6 +627,11 @@ function handleKeyboard(event) {
             event.preventDefault();
             adjustVolume(-0.1);
             break;
+        case 'Escape':
+            if (shareDropdown.classList.contains('show')) {
+                shareDropdown.classList.remove('show');
+            }
+            break;
     }
 }
 
