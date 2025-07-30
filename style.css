@@ -140,7 +140,7 @@ body.theme-originalcolor .social-link:hover {
 
 .surf-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 70px;
     left: 20px;
     display: inline-block;
     padding: 0;
@@ -286,7 +286,7 @@ body:not(.theme-secondary) .share-option:hover span {
     align-items: center;
 .surf-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 70px;
     left: 20px;
     display: inline-block;
     border: 5px solid #000;      /* Thicker border */
