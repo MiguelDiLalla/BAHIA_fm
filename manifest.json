@@ -2,7 +2,7 @@
   "name": "Bahia FM",
   "short_name": "SurfRadio",
   "description": "Your favorite reggae and surf music station streaming 24/7",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
@@ -29,7 +29,7 @@
       "name": "Play Radio",
       "short_name": "Play",
       "description": "Start playing the radio stream",
-      "url": "./index.html?action=play",
+      "url": "./?action=play",
       "icons": [
         {
           "src": "assets/logo.webp",
