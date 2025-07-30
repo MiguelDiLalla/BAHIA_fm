@@ -19,23 +19,7 @@
         // No manual consent calls - Cookiebot will handle this automatically
         gtag('config', 'G-4BFB1KMVW1', { send_page_view: false });
         
-        // Install state detection function
-        function isAppInstalled() {
-            return (
-                window.matchMedia('(display-mode: standalone)').matches ||
-                window.navigator.standalone === true ||
-                document.referrer.startsWith('android-app://')
-            );
-        }
-        
-        // Set user properties after Cookiebot consent is handled
-        window.addEventListener('CookiebotOnAccept', () => {
-            if (Cookiebot.consent.statistics) {
-                gtag('set', 'user_properties', {
-                    install_state: isAppInstalled() ? 'installed' : 'browser'
-                });
-            }
-        });
+        // GA4 events will be fired from app.js once consent is granted
     </script>
     <!-- End Google Analytics GA4 -->
     
