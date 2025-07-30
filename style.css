@@ -630,6 +630,15 @@ body.theme-originalcolor .install-btn:hover {
     font-variation-settings: "ROND" 0;
 }
 
+.footer a {
+    color: var(--footer-text);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
 /* Font Weight Utilities */
 .doto-light {
     font-family: "Doto", sans-serif;
