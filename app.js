@@ -58,14 +58,26 @@ let currentAnimation = null;
 // ================================
 
 /**
- * GA4 event tracking helper
+ * GA4 event tracking helper with enhanced error handling
  * @param {string} name - Event name
  * @param {Object} params - Event parameters
  */
 function gaEvent(name, params = {}) {
-    if (typeof gtag === 'function') {
-        gtag('event', name, params);
-        console.log('GA4 Event:', name, params);
+    try {
+        // Check if gtag is available and consent is granted
+        if (typeof gtag !== 'undefined' && 
+            typeof window.Cookiebot !== 'undefined' && 
+            window.Cookiebot && 
+            window.Cookiebot.consent && 
+            window.Cookiebot.consent.statistics) {
+            
+            console.log(`GA4 Event: ${name}`, params);
+            gtag('event', name, params);
+        } else {
+            console.log(`GA4 Event deferred (no consent): ${name}`, params);
+        }
+    } catch (error) {
+        console.error('GA4 Event error:', error);
     }
 }
 
@@ -194,14 +206,30 @@ function init() {
     initializeTheme();
 
     // Send initial page view only after analytics consent
-    if (window.Cookiebot && Cookiebot.consent.statistics) {
+    // Add safety checks for Cookiebot
+    if (typeof window.Cookiebot !== 'undefined' && window.Cookiebot && window.Cookiebot.consent && window.Cookiebot.consent.statistics) {
         sendInitialPageView();
     } else {
-        window.addEventListener('CookiebotOnAccept', () => {
-            if (Cookiebot.consent.statistics) {
-                sendInitialPageView();
+        // Wait for Cookiebot to load
+        const checkCookiebot = () => {
+            if (typeof window.Cookiebot !== 'undefined' && window.Cookiebot && window.Cookiebot.consent) {
+                if (window.Cookiebot.consent.statistics) {
+                    sendInitialPageView();
+                }
+                // Setup event listener for future consent changes
+                window.addEventListener('CookiebotOnAccept', () => {
+                    if (window.Cookiebot.consent.statistics) {
+                        sendInitialPageView();
+                    }
+                });
+            } else {
+                // Retry after 1 second if Cookiebot still not loaded
+                setTimeout(checkCookiebot, 1000);
             }
-        });
+        };
+        
+        // Start checking for Cookiebot
+        setTimeout(checkCookiebot, 500);
     }
     
     // TODO: Add metadata retrieval

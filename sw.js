@@ -1,7 +1,7 @@
 // Service Worker for Surfers Bahia FM PWA
 // Version: 2.1.0 - Added JSON data files to cache management
 
-const CACHE_NAME = 'radio-cache-v2-1';
+const CACHE_NAME = 'radio-cache-v2-2';
 const FILES_TO_CACHE = [
     '/',
     '/index.html',
@@ -82,6 +82,11 @@ self.addEventListener('fetch', (event) => {
         return;
     }
     
+    // Skip external CDN requests - let browser handle directly
+    if (isExternalCDN(request.url)) {
+        return;
+    }
+    
     // Skip audio stream requests - let browser handle directly
     if (isAudioStream(request.url)) {
         return;
@@ -143,6 +148,11 @@ async function networkFirstForNavigation(request) {
 async function handleGetRequest(request) {
     try {
         const url = new URL(request.url);
+        
+        // Only handle same-origin requests
+        if (url.origin !== self.location.origin) {
+            return fetch(request);
+        }
         
         // Network-first for CSS, JS, and JSON data files to ensure updates
         if (isCriticalAsset(request.url)) {
@@ -225,6 +235,21 @@ function isAudioStream(url) {
            url.includes('.aac') || 
            url.includes('8110') ||
            url.includes('sistemahost.es');
+}
+
+/**
+ * Check if URL is an external CDN that should not be cached
+ */
+function isExternalCDN(url) {
+    const externalDomains = [
+        'consent.cookiebot.com',
+        'cdnjs.cloudflare.com',
+        'fonts.googleapis.com',
+        'fonts.gstatic.com',
+        'www.googletagmanager.com'
+    ];
+    
+    return externalDomains.some(domain => url.includes(domain));
 }
 
 /**
