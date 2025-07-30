@@ -92,6 +92,21 @@ function getPlatform() {
     return 'desktop';
 }
 
+/**
+ * Send initial page_view and user properties when consent is granted
+ */
+function sendInitialPageView() {
+    gtag('set', 'user_properties', {
+        install_state: isAppInstalled() ? 'installed' : 'browser'
+    });
+
+    gaEvent('page_view', {
+        page_location: location.href,
+        page_title: document.title,
+        install_state: isAppInstalled() ? 'installed' : 'browser'
+    });
+}
+
 // Track buffer state for proper buffer events
 let isBuffering = false;
 
@@ -120,7 +135,6 @@ function setupGA4Tracking() {
     }
     
     // Track PWA installation events
-    let deferredPrompt;
     
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -178,13 +192,17 @@ function init() {
     
     // Initialize theme system
     initializeTheme();
-    
-    // Fire manual page_view with install state
-    gaEvent('page_view', {
-        page_location: location.href,
-        page_title: document.title,
-        install_state: isAppInstalled() ? 'installed' : 'browser'
-    });
+
+    // Send initial page view only after analytics consent
+    if (window.Cookiebot && Cookiebot.consent.statistics) {
+        sendInitialPageView();
+    } else {
+        window.addEventListener('CookiebotOnAccept', () => {
+            if (Cookiebot.consent.statistics) {
+                sendInitialPageView();
+            }
+        });
+    }
     
     // TODO: Add metadata retrieval
     // TODO: Add error handling for network issues
@@ -746,26 +764,6 @@ function registerServiceWorker() {
  * PWA Installation
  */
 let deferredPrompt;
-
-// Check if app is already installed
-function isAppInstalled() {
-    // Check for standalone mode (Android Chrome, Edge)
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-        return true;
-    }
-    
-    // Check for iOS standalone mode
-    if (window.navigator.standalone === true) {
-        return true;
-    }
-    
-    // Check for other PWA indicators
-    if (document.referrer.includes('android-app://')) {
-        return true;
-    }
-    
-    return false;
-}
 
 // Show/hide install button based on conditions
 function updateInstallButtonVisibility() {
